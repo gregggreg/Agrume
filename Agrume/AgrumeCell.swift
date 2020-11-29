@@ -2,7 +2,6 @@
 //  Copyright © 2016 Schnaub. All rights reserved.
 //
 
-import SwiftyGif
 import UIKit
 
 protocol AgrumeCellDelegate: AnyObject {
@@ -55,11 +54,7 @@ final class AgrumeCell: UICollectionViewCell {
 
   var image: UIImage? {
     didSet {
-      if image?.imageData != nil, let image = image {
-        imageView.setGifImage(image)
-      } else {
-        imageView.image = image
-      }
+			imageView.image = image
       updateScrollViewAndImageViewForCurrentMetrics()
     }
   }
@@ -251,7 +246,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
     } else if case .changed = gesture.state {
       if isDraggingImage {
         var newAnchor = imageDragStartingPoint
-        newAnchor?.x += translation.x + imageDragOffsetFromActualTranslation.horizontal
+				newAnchor?.x = (gesture.view?.frame.size.width ?? 0)/2
         newAnchor?.y += translation.y + imageDragOffsetFromActualTranslation.vertical
         attachmentBehavior?.anchorPoint = newAnchor!
       } else {
@@ -278,7 +273,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
     flickedToDismiss = true
 
     let push = UIPushBehavior(items: [imageView], mode: .instantaneous)
-    push.pushDirection = CGVector(dx: velocity.x * 0.1, dy: velocity.y * 0.1)
+    push.pushDirection = CGVector(dx: 0, dy: velocity.y * 0.1)
     push.setTargetOffsetFromCenter(imageDragOffsetFromImageCenter, for: imageView)
     push.action = pushAction
     if let attachmentBehavior = attachmentBehavior {
@@ -337,7 +332,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
 
   private func updateScrollViewAndImageViewForCurrentMetrics() {
     scrollView.frame = contentView.frame
-    if let image = imageView.image ?? imageView.currentImage {
+    if let image = imageView.image {
       imageView.frame = resizedFrame(forSize: image.size)
     }
     scrollView.contentSize = imageView.bounds.size
@@ -376,8 +371,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
     imageDragOffsetFromActualTranslation = translationOffset
 
     let anchor = imageDragStartingPoint
-    let imageCenter = imageView.center
-    let offset = UIOffset(horizontal: locationInView.x - imageCenter.x, vertical: locationInView.y - imageCenter.y)
+    let offset = UIOffset(horizontal: 0, vertical: 0)
     imageDragOffsetFromImageCenter = offset
 
     if hasPhysics {
