@@ -10,6 +10,6 @@ let package = Package(
         .library(name: "Agrume", targets: ["Agrume"])
     ],
     targets: [
-        .target(name: "Agrume", dependencies: ["SwiftyGif"], path: "./Agrume")
+        .target(name: "Agrume", dependencies: [], path: "./Agrume")
     ]
 )
