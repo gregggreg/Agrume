@@ -25,10 +25,7 @@ extension UIView {
   }
   
   var portableSafeTopInset: NSLayoutYAxisAnchor {
-    if #available(iOS 11.0, *) {
-      return safeAreaLayoutGuide.topAnchor
-    }
-    return layoutMarginsGuide.topAnchor
+		return safeAreaLayoutGuide.topAnchor
   }
 
 }

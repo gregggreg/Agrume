@@ -33,10 +33,7 @@ final class OverlayView: AgrumeOverlayView {
   }()
   
   var portableSafeLayoutGuide: UILayoutGuide {
-    if #available(iOS 11.0, *) {
-      return safeAreaLayoutGuide
-    }
-    return layoutMarginsGuide
+		return safeAreaLayoutGuide
   }
   
   weak var delegate: OverlayViewDelegate?
