@@ -5,7 +5,11 @@
 import UIKit
 
 extension CGFloat {
+#if targetEnvironment(macCatalyst)
+  static let initialScaleToExpandFrom: CGFloat = 1.0
+#else
   static let initialScaleToExpandFrom: CGFloat = 0.6
+#endif
   static let maxScaleForExpandingOffscreen: CGFloat = 1.25
   static let targetZoomForDoubleTap: CGFloat = 3
   static let minFlickDismissalVelocity: CGFloat = 800
