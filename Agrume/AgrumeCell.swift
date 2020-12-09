@@ -246,7 +246,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
     } else if case .changed = gesture.state {
       if isDraggingImage {
         var newAnchor = imageDragStartingPoint
-				newAnchor?.x = (gesture.view?.frame.size.width ?? 0)/2
+		newAnchor?.x = imageView.frame.size.width/2
         newAnchor?.y += translation.y + imageDragOffsetFromActualTranslation.vertical
         attachmentBehavior?.anchorPoint = newAnchor!
       } else {
