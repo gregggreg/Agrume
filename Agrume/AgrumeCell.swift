@@ -235,13 +235,14 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
     }
     let translation = gesture.translation(in: gesture.view)
     let locationInView = gesture.location(in: gesture.view)
+	let startingPoint = CGPoint(x: imageView.frame.size.width/2, y: locationInView.y)
     let velocity = gesture.velocity(in: gesture.view)
     let vectorDistance = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2))
 
     if case .began = gesture.state {
       isDraggingImage = imageView.frame.contains(locationInView)
       if isDraggingImage {
-        startImageDragging(locationInView, translationOffset: .zero)
+		startImageDragging(startingPoint, translationOffset: .zero)
       }
     } else if case .changed = gesture.state {
       if isDraggingImage {
@@ -253,7 +254,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
         isDraggingImage = imageView.frame.contains(locationInView)
         if isDraggingImage {
           let translationOffset = UIOffset(horizontal: -1 * translation.x, vertical: -1 * translation.y)
-          startImageDragging(locationInView, translationOffset: translationOffset)
+          startImageDragging(startingPoint, translationOffset: translationOffset)
         }
       }
     } else {
