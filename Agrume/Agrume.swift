@@ -230,10 +230,10 @@ public final class Agrume: UIViewController {
   ///
   /// - Parameters:
   ///   - viewController: The UIViewController to present from
-  public func show(from viewController: UIViewController) {
+  public func show(from viewController: UIViewController, image: UIImage? = nil, startingFrame: CGRect? = nil) {
     view.isUserInteractionEnabled = false
     addSubviews()
-    present(from: viewController)
+    present(from: viewController, image: image, startingFrame: startingFrame)
   }
 
   /// Update image at index
@@ -293,25 +293,39 @@ public final class Agrume: UIViewController {
     view.addSubview(spinner)
   }
   
-  private func present(from viewController: UIViewController) {
+	private func present(from viewController: UIViewController, image: UIImage? = nil, startingFrame: CGRect? = nil) {
     DispatchQueue.main.async {
-      self.blurContainerView.alpha = 1
+      self.blurContainerView.alpha = 0
       self.containerView.alpha = 0
-      let scale: CGFloat = .initialScaleToExpandFrom
-      // Transform the container view, not the collection view to prevent an RTL display bug
-      self.containerView.transform = CGAffineTransform(scaleX: scale, y: scale)
-
+		self.collectionView.alpha = 0
+		var imageView : UIImageView? = nil
+		if let img = image {
+			imageView = UIImageView(image: img)
+			imageView!.frame = startingFrame ?? CGRect.zero
+			imageView!.contentMode = .scaleAspectFit
+			self.containerView.addSubview(imageView!)
+		}
       viewController.present(self, animated: false) {
         UIView.animate(
           withDuration: .transitionAnimationDuration,
           delay: 0,
-          options: .beginFromCurrentState,
+			options: .transitionCrossDissolve,
           animations: {
+			self.blurContainerView.alpha = 1
             self.containerView.alpha = 1
-            self.containerView.transform = .identity
+			if let imgView = imageView {
+				imgView.frame = self.containerView.frame
+			}
+			else {
+				self.collectionView.alpha = 1
+			}
             self.addOverlayView()
           },
           completion: { _ in
+			if let imgView = imageView {
+				imgView.removeFromSuperview()
+				self.collectionView.alpha = 1
+			}
             self.view.isUserInteractionEnabled = true
           }
         )
