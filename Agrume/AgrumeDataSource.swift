@@ -4,7 +4,7 @@
 
 import UIKit
 
-public protocol AgrumeDataSource: AnyObject {
+@objc public protocol AgrumeDataSource: AnyObject {
   
   /// The number of images contained in the data source
   var numberOfImages: Int { get }
@@ -14,5 +14,11 @@ public protocol AgrumeDataSource: AnyObject {
   /// - Parameter index: The index (collection view item) being displayed
   /// - Parameter completion: The completion that returns the image to be shown at the index
   func image(forIndex index: Int, completion: @escaping (UIImage?) -> Void)
+	
+	/// Return the image for the passed in index
+	///
+	/// - Parameter index: The index (collection view item) being displayed
+	/// - Parameter completion: The completion that returns the image to be shown at the index
+	@objc optional func lowResImage(forIndex index: Int, completion: @escaping (UIImage?) -> Void)
   
 }

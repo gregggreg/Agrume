@@ -462,11 +462,22 @@ extension Agrume: UICollectionViewDataSource {
   }
 
   private func fetchImage(forIndex index: Int, handler: @escaping (UIImage?) -> Void) {
-    dataSource?.image(forIndex: index) { image in
-      DispatchQueue.main.async {
-        handler(image)
-      }
-    }
+	var imageHandled = false
+	dataSource?.lowResImage?(forIndex: index) { image in
+		if !imageHandled {
+			DispatchQueue.main.async {
+				if !imageHandled {
+					handler(image)
+				}
+			}
+		}
+	}
+	dataSource?.image(forIndex: index) { image in
+		imageHandled = true
+		DispatchQueue.main.async {
+			handler(image)
+		}
+	}
   }
 
 }
