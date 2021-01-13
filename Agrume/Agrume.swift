@@ -458,6 +458,7 @@ extension Agrume: UICollectionViewDataSource {
     // Only allow panning if horizontal swiping fails. Horizontal swiping is only active for zoomed in images
     collectionView.panGestureRecognizer.require(toFail: cell.swipeGesture)
     cell.delegate = self
+	cell.isAccessibilityElement = true
     return cell
   }
 
