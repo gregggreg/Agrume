@@ -267,6 +267,10 @@ public final class Agrume: UIViewController {
       view.addGestureRecognizer(longPress)
     }
   }
+	
+	public override var canBecomeFirstResponder : Bool {
+		return false
+	}
 
   @objc
   func didLongPress(_ gesture: UIGestureRecognizer) {
